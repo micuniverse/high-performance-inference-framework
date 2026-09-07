@@ -18,6 +18,7 @@ from pathlib import Path
 import torch
 
 from nanovllm import LLM, SamplingParams
+from operator_backends import BACKENDS, configure_backend
 
 
 def percentile(values: list[float], p: float) -> float:
@@ -83,6 +84,7 @@ def main():
     parser.add_argument("--warmup-runs", type=int, default=1)
     parser.add_argument("--seed", type=int, default=20260907)
     parser.add_argument("--gpu-memory-utilization", type=float, default=0.9)
+    parser.add_argument("--rmsnorm-backend", choices=BACKENDS, default="cuda")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     if min(args.lengths) < 1 or args.decode_tokens < 2 or min(args.prefill_repeats, args.decode_repeats, args.warmup_runs) < 1:
@@ -90,6 +92,7 @@ def main():
     torch.manual_seed(args.seed)
     random.seed(args.seed)
     started = datetime.now(timezone.utc).isoformat()
+    backend = configure_backend(args.rmsnorm_backend)
 
     kv_quant = args.kv_quant == "on"
     max_model_len = max(args.lengths) + args.decode_tokens
@@ -106,6 +109,8 @@ def main():
 
     metadata = {
         "schema_version": 2,
+        "operator_backend": backend,
+        "operator_backends_sha256": hashlib.sha256(Path(__file__).with_name("operator_backends.py").read_bytes()).hexdigest(),
         "started_utc": started,
         "model": args.model,
         "gpu": torch.cuda.get_device_name(0),
