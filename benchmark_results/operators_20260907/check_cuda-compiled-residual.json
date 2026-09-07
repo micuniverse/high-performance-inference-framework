@@ -1,0 +1,274 @@
+{
+  "backend": "nano",
+  "operator_backend": {
+    "name": "cuda-compiled-residual",
+    "standalone_rmsnorm": "CUDA",
+    "residual_add_rmsnorm": "torch.compile",
+    "other_operators": "unchanged: PyTorch linear/embedding/sampling and existing FlashAttention/RoPE/SwiGLU",
+    "scope": "only RMSNorm backend ablation inside this learning fork; not a full upstream-vs-fork benchmark"
+  },
+  "kv_quant": false,
+  "cuda_graph": true,
+  "method": "teacher-forced reference tokens, same inputs, single request; not perplexity or free-generation accuracy",
+  "compared_steps": 26,
+  "top1_agreement": 1.0,
+  "mean_abs_logit_error": 0.010587860848038243,
+  "max_abs_logit_error": 0.078125,
+  "cases": [
+    {
+      "prompt": "What is the capital of France? Answer with the city name only.",
+      "reference_text": "Paris",
+      "steps": [
+        {
+          "step": 0,
+          "phase": "prefill",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.013493439182639122,
+          "max_abs_logit_error": 0.0751953125,
+          "reference_token_logprob_error": 0.0012092739343643188,
+          "finite": true
+        },
+        {
+          "step": 1,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.009525325149297714,
+          "max_abs_logit_error": 0.0703125,
+          "reference_token_logprob_error": 0.00015938933938741684,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "prompt": "What is 2 + 3? Answer with the number only.",
+      "reference_text": "2 + 3 = 5",
+      "steps": [
+        {
+          "step": 0,
+          "phase": "prefill",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.012162802740931511,
+          "max_abs_logit_error": 0.078125,
+          "reference_token_logprob_error": 4.816800355911255e-06,
+          "finite": true
+        },
+        {
+          "step": 1,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.015298699960112572,
+          "max_abs_logit_error": 0.0703125,
+          "reference_token_logprob_error": 0.0,
+          "finite": true
+        },
+        {
+          "step": 2,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.01252346858382225,
+          "max_abs_logit_error": 0.0546875,
+          "reference_token_logprob_error": 0.0,
+          "finite": true
+        },
+        {
+          "step": 3,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.0063005052506923676,
+          "max_abs_logit_error": 0.0390625,
+          "reference_token_logprob_error": 0.0,
+          "finite": true
+        },
+        {
+          "step": 4,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.017536267638206482,
+          "max_abs_logit_error": 0.0703125,
+          "reference_token_logprob_error": 1.0484654922038317e-05,
+          "finite": true
+        },
+        {
+          "step": 5,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.017703132703900337,
+          "max_abs_logit_error": 0.0625,
+          "reference_token_logprob_error": 0.00013741105794906616,
+          "finite": true
+        },
+        {
+          "step": 6,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.006743656005710363,
+          "max_abs_logit_error": 0.0390625,
+          "reference_token_logprob_error": 2.3840402718633413e-07,
+          "finite": true
+        },
+        {
+          "step": 7,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.010008629411458969,
+          "max_abs_logit_error": 0.060546875,
+          "reference_token_logprob_error": 0.0016849637031555176,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "prompt": "Explain what a GPU does in one short sentence.",
+      "reference_text": "A GPU (Graphics Processing Unit) is a central component of a computer that performs",
+      "steps": [
+        {
+          "step": 0,
+          "phase": "prefill",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.01348591223359108,
+          "max_abs_logit_error": 0.06640625,
+          "reference_token_logprob_error": 3.8149766623973846e-05,
+          "finite": true
+        },
+        {
+          "step": 1,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.011959007941186428,
+          "max_abs_logit_error": 0.0703125,
+          "reference_token_logprob_error": 5.0483038648962975e-05,
+          "finite": true
+        },
+        {
+          "step": 2,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.007967455312609673,
+          "max_abs_logit_error": 0.0537109375,
+          "reference_token_logprob_error": 0.002589106559753418,
+          "finite": true
+        },
+        {
+          "step": 3,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.009118416346609592,
+          "max_abs_logit_error": 0.0546875,
+          "reference_token_logprob_error": 0.0008680671453475952,
+          "finite": true
+        },
+        {
+          "step": 4,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.00948585756123066,
+          "max_abs_logit_error": 0.0546875,
+          "reference_token_logprob_error": 3.5723205655813217e-06,
+          "finite": true
+        },
+        {
+          "step": 5,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.009704910218715668,
+          "max_abs_logit_error": 0.0546875,
+          "reference_token_logprob_error": 2.1425075829029083e-06,
+          "finite": true
+        },
+        {
+          "step": 6,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.012001910246908665,
+          "max_abs_logit_error": 0.0595703125,
+          "reference_token_logprob_error": 0.0,
+          "finite": true
+        },
+        {
+          "step": 7,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.010802807286381721,
+          "max_abs_logit_error": 0.05859375,
+          "reference_token_logprob_error": 0.001270987093448639,
+          "finite": true
+        },
+        {
+          "step": 8,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.00794665515422821,
+          "max_abs_logit_error": 0.0546875,
+          "reference_token_logprob_error": 0.00013993028551340103,
+          "finite": true
+        },
+        {
+          "step": 9,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.008421473205089569,
+          "max_abs_logit_error": 0.05078125,
+          "reference_token_logprob_error": 0.0006769895553588867,
+          "finite": true
+        },
+        {
+          "step": 10,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.010223431512713432,
+          "max_abs_logit_error": 0.0546875,
+          "reference_token_logprob_error": 0.006682276725769043,
+          "finite": true
+        },
+        {
+          "step": 11,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.006193222943693399,
+          "max_abs_logit_error": 0.0390625,
+          "reference_token_logprob_error": 0.0030593127012252808,
+          "finite": true
+        },
+        {
+          "step": 12,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.012692197225987911,
+          "max_abs_logit_error": 0.0625,
+          "reference_token_logprob_error": 0.003252193331718445,
+          "finite": true
+        },
+        {
+          "step": 13,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.007304775062948465,
+          "max_abs_logit_error": 0.046875,
+          "reference_token_logprob_error": 0.00043526850640773773,
+          "finite": true
+        },
+        {
+          "step": 14,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.007954830303788185,
+          "max_abs_logit_error": 0.046875,
+          "reference_token_logprob_error": 0.0030848681926727295,
+          "finite": true
+        },
+        {
+          "step": 15,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.008725592866539955,
+          "max_abs_logit_error": 0.0546875,
+          "reference_token_logprob_error": 0.0052220821380615234,
+          "finite": true
+        }
+      ]
+    }
+  ],
+  "model": "/root/huggingface/Qwen3-0.6B",
+  "torch": "2.5.1+cu121",
+  "script_sha256": "3fc72fef1204fe588401dfa8227254a6bad42e08f6122c75fba3450fd22a944a"
+}
