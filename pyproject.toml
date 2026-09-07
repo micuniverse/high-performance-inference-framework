@@ -23,7 +23,7 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage="https://github.com/micuniverse/nano-vllm-int8"
+Homepage="https://github.com/micuniverse/high-performance-inference-framework"
 
 [tool.setuptools.packages.find]
 where = ["."]

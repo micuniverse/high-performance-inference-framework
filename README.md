@@ -1,4 +1,4 @@
-# nano-vLLM INT8：推理框架学习与 KV Cache 量化实验
+# 高性能推理框架
 
 基于 [GeeeekExplorer/nano-vllm](https://github.com/GeeeekExplorer/nano-vllm) 的个人学习分支，整理本地 `nano-vllm1` 的改动。探索 Qwen3 推理、INT8 KV Cache、自定义 CUDA 算子接入，以及 Prefill/Decode 性能测量。
 
