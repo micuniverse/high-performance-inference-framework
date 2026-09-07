@@ -1,5 +1,7 @@
 # 发布验证记录
 
+后续完整 Prefill/Decode 对照测试及 26 步 teacher-forcing logits 检查已完成，见 [2026-09-07 实测报告](../benchmark_results/resume_20260907/README.md)。下文记录首次发布时的验证范围；后续小样本检查仍不能替代困惑度和长上下文质量评估。
+
 日期：2026-09-07。GPU：NVIDIA GeForce RTX 3050 Laptop GPU（4 GB）。环境：WSL2/Linux、CUDA Toolkit 12.1、Python 3.10、PyTorch 2.5.1+cu121、FlashAttention 2.8.3、Transformers 5.2.0。
 
 ## 已执行

@@ -1,0 +1,267 @@
+{
+  "backend": "nano",
+  "kv_quant": true,
+  "cuda_graph": true,
+  "method": "teacher-forced reference tokens, same inputs, single request; not perplexity or free-generation accuracy",
+  "compared_steps": 26,
+  "top1_agreement": 0.9230769230769231,
+  "mean_abs_logit_error": 0.7381583605892956,
+  "max_abs_logit_error": 12.703125,
+  "cases": [
+    {
+      "prompt": "What is the capital of France? Answer with the city name only.",
+      "reference_text": "Paris",
+      "steps": [
+        {
+          "step": 0,
+          "phase": "prefill",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.018093371763825417,
+          "max_abs_logit_error": 0.107421875,
+          "reference_token_logprob_error": 0.0009569525718688965,
+          "finite": true
+        },
+        {
+          "step": 1,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.2698228359222412,
+          "max_abs_logit_error": 1.720703125,
+          "reference_token_logprob_error": 0.0032845991663634777,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "prompt": "What is 2 + 3? Answer with the number only.",
+      "reference_text": "2 + 3 = 5",
+      "steps": [
+        {
+          "step": 0,
+          "phase": "prefill",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.016348473727703094,
+          "max_abs_logit_error": 0.083984375,
+          "reference_token_logprob_error": 0.0007789358496665955,
+          "finite": true
+        },
+        {
+          "step": 1,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 3.169023036956787,
+          "max_abs_logit_error": 12.703125,
+          "reference_token_logprob_error": 6.615842721657827e-05,
+          "finite": true
+        },
+        {
+          "step": 2,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 1.2222845554351807,
+          "max_abs_logit_error": 8.04620361328125,
+          "reference_token_logprob_error": 2.3841823804104934e-07,
+          "finite": true
+        },
+        {
+          "step": 3,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.6363731026649475,
+          "max_abs_logit_error": 3.65625,
+          "reference_token_logprob_error": 1.1920917586394353e-07,
+          "finite": true
+        },
+        {
+          "step": 4,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 2.768984317779541,
+          "max_abs_logit_error": 9.1015625,
+          "reference_token_logprob_error": 0.011531464755535126,
+          "finite": true
+        },
+        {
+          "step": 5,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 1.0535639524459839,
+          "max_abs_logit_error": 8.4365234375,
+          "reference_token_logprob_error": 0.007507084868848324,
+          "finite": true
+        },
+        {
+          "step": 6,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.902130126953125,
+          "max_abs_logit_error": 6.669921875,
+          "reference_token_logprob_error": 0.04899220913648605,
+          "finite": true
+        },
+        {
+          "step": 7,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.7965577244758606,
+          "max_abs_logit_error": 4.453125,
+          "reference_token_logprob_error": 0.08298750221729279,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "prompt": "Explain what a GPU does in one short sentence.",
+      "reference_text": "A GPU (Graphics Processing Unit) is a central component of a computer that performs",
+      "steps": [
+        {
+          "step": 0,
+          "phase": "prefill",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.01207753550261259,
+          "max_abs_logit_error": 0.0703125,
+          "reference_token_logprob_error": 4.24280297011137e-05,
+          "finite": true
+        },
+        {
+          "step": 1,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.21560531854629517,
+          "max_abs_logit_error": 1.236328125,
+          "reference_token_logprob_error": 0.0006575488951057196,
+          "finite": true
+        },
+        {
+          "step": 2,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.5416471362113953,
+          "max_abs_logit_error": 3.125,
+          "reference_token_logprob_error": 0.42200136184692383,
+          "finite": true
+        },
+        {
+          "step": 3,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.4695611000061035,
+          "max_abs_logit_error": 2.6220703125,
+          "reference_token_logprob_error": 0.0173097625374794,
+          "finite": true
+        },
+        {
+          "step": 4,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.46023911237716675,
+          "max_abs_logit_error": 3.044921875,
+          "reference_token_logprob_error": 0.0007068496197462082,
+          "finite": true
+        },
+        {
+          "step": 5,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.9049804210662842,
+          "max_abs_logit_error": 5.55859375,
+          "reference_token_logprob_error": 0.005292020738124847,
+          "finite": true
+        },
+        {
+          "step": 6,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.4956710934638977,
+          "max_abs_logit_error": 3.81640625,
+          "reference_token_logprob_error": 2.2768601411371492e-05,
+          "finite": true
+        },
+        {
+          "step": 7,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.45953693985939026,
+          "max_abs_logit_error": 2.984375,
+          "reference_token_logprob_error": 0.018501728773117065,
+          "finite": true
+        },
+        {
+          "step": 8,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.637964129447937,
+          "max_abs_logit_error": 3.796875,
+          "reference_token_logprob_error": 0.00448822695761919,
+          "finite": true
+        },
+        {
+          "step": 9,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.6096436977386475,
+          "max_abs_logit_error": 3.7314453125,
+          "reference_token_logprob_error": 0.5408223271369934,
+          "finite": true
+        },
+        {
+          "step": 10,
+          "phase": "decode",
+          "top1_matches_reference": false,
+          "mean_abs_logit_error": 0.6457489728927612,
+          "max_abs_logit_error": 4.21484375,
+          "reference_token_logprob_error": 0.6923875212669373,
+          "finite": true
+        },
+        {
+          "step": 11,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.4313942790031433,
+          "max_abs_logit_error": 2.58984375,
+          "reference_token_logprob_error": 0.2707328796386719,
+          "finite": true
+        },
+        {
+          "step": 12,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.709071159362793,
+          "max_abs_logit_error": 4.328125,
+          "reference_token_logprob_error": 0.01718457043170929,
+          "finite": true
+        },
+        {
+          "step": 13,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.45637157559394836,
+          "max_abs_logit_error": 2.6904296875,
+          "reference_token_logprob_error": 0.005415884777903557,
+          "finite": true
+        },
+        {
+          "step": 14,
+          "phase": "decode",
+          "top1_matches_reference": true,
+          "mean_abs_logit_error": 0.779563307762146,
+          "max_abs_logit_error": 3.8203125,
+          "reference_token_logprob_error": 0.0874464213848114,
+          "finite": true
+        },
+        {
+          "step": 15,
+          "phase": "decode",
+          "top1_matches_reference": false,
+          "mean_abs_logit_error": 0.509860098361969,
+          "max_abs_logit_error": 2.9765625,
+          "reference_token_logprob_error": 1.251852035522461,
+          "finite": true
+        }
+      ]
+    }
+  ],
+  "model": "/root/huggingface/Qwen3-0.6B",
+  "torch": "2.5.1+cu121",
+  "script_sha256": "693fc211427f3536368ea5fc2e906281ebb855bfd51e996dee2626670b5db901"
+}
