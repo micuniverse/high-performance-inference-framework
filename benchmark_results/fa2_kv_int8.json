@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "model": "/root/huggingface/Qwen3-0.6B",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "torch": "2.5.1+cu121",
+    "kv_quant": true,
+    "decode_tokens": 128,
+    "prefill_repeats": 5,
+    "timing_scope": "scheduler + H2D preparation + model + sampler; tokenizer excluded"
+  },
+  "results": [
+    {
+      "input_tokens": 512,
+      "prefill_ms_median": 77.46667399987928,
+      "prefill_ms_min": 67.4349319999692,
+      "prefill_ms_p90": 505.23130200012935,
+      "prefill_tok_s": 6609.293694483358,
+      "ttft_ms": 100.56935500006148,
+      "decode_steps": 127,
+      "tpot_ms_median": 48.36394200015093,
+      "tpot_ms_p90": 51.561870999921666,
+      "decode_tok_s": 20.676561062720637,
+      "e2e_ms": 6191.073788000722
+    },
+    {
+      "input_tokens": 1024,
+      "prefill_ms_median": 135.9154669999043,
+      "prefill_ms_min": 129.23440600002323,
+      "prefill_ms_p90": 136.30253820006146,
+      "prefill_tok_s": 7534.094703148987,
+      "ttft_ms": 137.63984899992465,
+      "decode_steps": 127,
+      "tpot_ms_median": 49.73263700003372,
+      "tpot_ms_p90": 52.34425060011745,
+      "decode_tok_s": 20.107520138120204,
+      "e2e_ms": 6365.043733999528
+    },
+    {
+      "input_tokens": 2048,
+      "prefill_ms_median": 260.0183179999931,
+      "prefill_ms_min": 259.53773699984595,
+      "prefill_ms_p90": 270.8947862000514,
+      "prefill_tok_s": 7876.3681564929375,
+      "ttft_ms": 274.48096200009786,
+      "decode_steps": 127,
+      "tpot_ms_median": 50.11888300009559,
+      "tpot_ms_p90": 50.750230200083024,
+      "decode_tok_s": 19.952559597110188,
+      "e2e_ms": 6541.046747001701
+    },
+    {
+      "input_tokens": 4096,
+      "prefill_ms_median": 602.3503149999669,
+      "prefill_ms_min": 591.0268019999876,
+      "prefill_ms_p90": 605.2470877999895,
+      "prefill_tok_s": 6800.029647199944,
+      "ttft_ms": 604.9414810001963,
+      "decode_steps": 127,
+      "tpot_ms_median": 49.27296699997896,
+      "tpot_ms_p90": 49.69500179995521,
+      "decode_tok_s": 20.29510420999058,
+      "e2e_ms": 6849.956277999809
+    },
+    {
+      "input_tokens": 8192,
+      "prefill_ms_median": 1554.1682139999011,
+      "prefill_ms_min": 1444.486459000018,
+      "prefill_ms_p90": 1561.7886759999692,
+      "prefill_tok_s": 5270.986709293567,
+      "ttft_ms": 1461.1741139999594,
+      "decode_steps": 127,
+      "tpot_ms_median": 53.198119999933624,
+      "tpot_ms_p90": 55.709797600002275,
+      "decode_tok_s": 18.797656759322468,
+      "e2e_ms": 8237.590169000896
+    }
+  ],
+  "output_smoke_test": "<think>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+}

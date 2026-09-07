@@ -1,0 +1,27 @@
+{
+  "metadata": {
+    "model": "/root/huggingface/Qwen3-0.6B",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "torch": "2.5.1+cu121",
+    "kv_quant": false,
+    "decode_tokens": 8,
+    "prefill_repeats": 1,
+    "timing_scope": "scheduler + H2D preparation + model + sampler; tokenizer excluded"
+  },
+  "results": [
+    {
+      "input_tokens": 32,
+      "prefill_ms_median": 1834.8215260000416,
+      "prefill_ms_min": 1834.8215260000416,
+      "prefill_ms_p90": 1834.8215260000416,
+      "prefill_tok_s": 17.44038836832312,
+      "ttft_ms": 50.57520599984855,
+      "decode_steps": 7,
+      "tpot_ms_median": 14.649207000047682,
+      "tpot_ms_p90": 16.307452599858152,
+      "decode_tok_s": 68.26308072489829,
+      "e2e_ms": 145.66460599962738
+    }
+  ],
+  "output_smoke_test": "<think>\nOkay, the user wants me to introduce myself in one short sentence. Let me start by thinking about what a typical self-introduction should include. I"
+}

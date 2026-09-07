@@ -56,7 +56,8 @@ class Qwen3Attention(nn.Module):
             rotary_dim=self.head_dim,
             max_position=max_position,
             base=rope_theta,
-            rope_scaling=rope_scaling,
+            rope_scaling=None,
+            #rope_scaling=rope_scaling,
         )
         self.attn = Attention(
             self.num_heads,
@@ -139,7 +140,9 @@ class Qwen3DecoderLayer(nn.Module):
             intermediate_size=config.intermediate_size,
             hidden_act=config.hidden_act,
         )
+        # 在 Attention 之前执行
         self.input_layernorm = RMSNorm(config.hidden_size, eps=config.rms_norm_eps)
+        # 在 MLP 之前执行
         self.post_attention_layernorm = RMSNorm(config.hidden_size, eps=config.rms_norm_eps)
 
     def forward(

@@ -3,6 +3,8 @@ from torch import nn
 import torch.nn.functional as F
 import torch.distributed as dist
 
+from nanovllm.ops import get_ops
+_ops = get_ops()
 
 def divide(numerator, denominator):
     assert numerator % denominator == 0
@@ -33,7 +35,7 @@ class LinearBase(nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         raise NotImplementedError
 
-
+# 普通线性层，不做tp切分
 class ReplicatedLinear(LinearBase):
 
     def __init__(
@@ -48,9 +50,10 @@ class ReplicatedLinear(LinearBase):
         param.data.copy_(loaded_weight)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
+        # return _ops.linear_forward(x, self.weight, self.bias)
         return F.linear(x, self.weight, self.bias)
 
-
+# 按输出为进行切分，也就是列切分
 class ColumnParallelLinear(LinearBase):
 
     def __init__(
@@ -73,6 +76,7 @@ class ColumnParallelLinear(LinearBase):
         return F.linear(x, self.weight, self.bias)
 
 
+# 对上述列切分的维度进行合并
 class MergedColumnParallelLinear(ColumnParallelLinear):
 
     def __init__(

@@ -1,0 +1,27 @@
+{
+  "metadata": {
+    "model": "/root/huggingface/Qwen3-0.6B",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "torch": "2.5.1+cu121",
+    "kv_quant": true,
+    "decode_tokens": 8,
+    "prefill_repeats": 1,
+    "timing_scope": "scheduler + H2D preparation + model + sampler; tokenizer excluded"
+  },
+  "results": [
+    {
+      "input_tokens": 32,
+      "prefill_ms_median": 724.1109090000464,
+      "prefill_ms_min": 724.1109090000464,
+      "prefill_ms_p90": 724.1109090000464,
+      "prefill_tok_s": 44.192125270133104,
+      "ttft_ms": 60.1631129998168,
+      "decode_steps": 7,
+      "tpot_ms_median": 53.106290999949124,
+      "tpot_ms_p90": 65.44499939996058,
+      "decode_tok_s": 18.830160818441605,
+      "e2e_ms": 462.54517699935604
+    }
+  ],
+  "output_smoke_test": "<think>\n\n<think>\n\nOkay, the user wants me to introduce myself in one short sentence. Let me think about the best way to phrase that. First"
+}

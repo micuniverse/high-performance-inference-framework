@@ -1,4 +1,5 @@
 import atexit
+import torch
 from dataclasses import fields
 from time import perf_counter
 from tqdm.auto import tqdm

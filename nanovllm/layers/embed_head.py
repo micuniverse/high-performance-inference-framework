@@ -5,6 +5,15 @@ import torch.distributed as dist
 
 from nanovllm.utils.context import get_context
 
+# =========================
+# [CHANGED 1] 新增：加载自定义 CUDA ops
+# =========================
+try:
+    from nanovllm.ops import get_ops
+    _ops = get_ops()
+except Exception:
+    _ops = None
+
 
 class VocabParallelEmbedding(nn.Module):
 
@@ -32,9 +41,38 @@ class VocabParallelEmbedding(nn.Module):
         param_data.copy_(loaded_weight)
 
     def forward(self, x: torch.Tensor):
+        # if self.tp_size > 1:
+        #     mask = (x >= self.vocab_start_idx) & (x < self.vocab_end_idx)
+        #     x = mask * (x - self.vocab_start_idx)
+
+                # =========================
+        # [CHANGED 2] 改成本地 shard 的安全写法
+        # 原来是: x = mask * (x - self.vocab_start_idx)
+        # 这里改成 masked_fill，更稳
+        # =========================
         if self.tp_size > 1:
             mask = (x >= self.vocab_start_idx) & (x < self.vocab_end_idx)
-            x = mask * (x - self.vocab_start_idx)
+            x_local = (x - self.vocab_start_idx)
+        else:
+            mask = None
+            x_local = x
+
+        # =========================
+        # [CHANGED 3] 用自定义 CUDA embedding 替换 F.embedding
+        # =========================
+        # if (
+        #     _ops is not None
+        #     and x_local.is_cuda
+        #     and self.weight.is_cuda
+        #     and x_local.dtype in (torch.int32, torch.int64)
+        #     and self.weight.dtype in (torch.float16, torch.float32)
+        # ):
+        #     orig_shape = x_local.shape
+        #     x_flat = x_local.reshape(-1).contiguous()
+        #     y = _ops.embedding_forward(x_flat, self.weight.contiguous())
+        #     y = y.view(*orig_shape, self.weight.shape[1])
+        # else:
+        #     y = F.embedding(x_local, self.weight)
         y = F.embedding(x, self.weight)
         if self.tp_size > 1:
             y = mask.unsqueeze(1) * y

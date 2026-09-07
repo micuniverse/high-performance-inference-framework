@@ -1,4 +1,5 @@
 import os
+import torch
 from nanovllm import LLM, SamplingParams
 from transformers import AutoTokenizer
 
@@ -6,7 +7,7 @@ from transformers import AutoTokenizer
 def main():
     path = os.path.expanduser("~/huggingface/Qwen3-0.6B/")
     tokenizer = AutoTokenizer.from_pretrained(path)
-    llm = LLM(path, enforce_eager=True, tensor_parallel_size=1)
+    llm = LLM(path, enforce_eager=False, tensor_parallel_size=1)
 
     sampling_params = SamplingParams(temperature=0.6, max_tokens=256)
     prompts = [
@@ -21,7 +22,15 @@ def main():
         )
         for prompt in prompts
     ]
+    # __ = llm.generate(prompts, sampling_params)
+    torch.cuda.empty_cache()
+    torch.cuda.reset_peak_memory_stats()
+    torch.cuda.synchronize()
+
     outputs = llm.generate(prompts, sampling_params)
+    torch.cuda.synchronize()
+    print(f"max_memory_allocated: {torch.cuda.max_memory_allocated()/1024**2:.2f} MB")
+    print(f"max_memory_reserved : {torch.cuda.max_memory_reserved()/1024**2:.2f} MB")
 
     for prompt, output in zip(prompts, outputs):
         print("\n")
