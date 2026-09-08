@@ -8,9 +8,10 @@ from summarize_benchmarks import percentile
 MODES = {"graph_off": (False, False), "graph_temp_metadata": (True, False), "graph_staging": (True, True)}
 
 
-def summarize(folder):
-    reports = {name: [json.loads((folder / f"{name}_round{i}.json").read_text()) for i in (1, 2)] for name in MODES}
-    first = reports["graph_off"][0]
+def summarize(folder, selected=None):
+    selected = tuple(MODES) if selected is None else tuple(selected)
+    reports = {name: [json.loads((folder / f"{name}_round{i}.json").read_text()) for i in (1, 2)] for name in selected}
+    first = reports[selected[0]][0]
     for name, runs in reports.items():
         for run in runs:
             meta = run["metadata"]
@@ -46,18 +47,21 @@ def summarize(folder):
             ("graph_with_staging_vs_off", "graph_off", "graph_staging"),
             ("staging_on_existing_graph", "graph_temp_metadata", "graph_staging"),
         ):
+            if before not in row["modes"] or after not in row["modes"]:
+                continue
             pairs[name] = {"before": before, "after": after,
                 "decode_throughput_change_pct": 100 * (row["modes"][after]["decode_tok_s"] / row["modes"][before]["decode_tok_s"] - 1),
                 "e2e_output_throughput_change_pct": 100 * (row["modes"][after]["e2e_output_tok_s"] / row["modes"][before]["e2e_output_tok_s"] - 1)}
         row["comparisons"] = pairs
         rows.append(row)
-    return {"method": "all six processes, fixed FP16 KV cache and CUDA RMSNorm; pooled Decode tokens / pooled time", "results": rows}
+    return {"method": "all selected modes, two processes each, fixed FP16 KV cache and the same RMSNorm backend; pooled Decode tokens / pooled time", "results": rows}
 
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("directory", type=Path)
+    p.add_argument("--modes", nargs="+", choices=list(MODES), default=list(MODES))
     args = p.parse_args()
-    result = summarize(args.directory)
+    result = summarize(args.directory, args.modes)
     (args.directory / "summary.json").write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result, indent=2))
