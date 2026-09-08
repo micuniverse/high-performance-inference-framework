@@ -1,0 +1,152 @@
+{
+  "method": "all selected modes, two processes each, fixed FP16 KV cache and the same RMSNorm backend; pooled Decode tokens / pooled time",
+  "results": [
+    {
+      "input_tokens": 512,
+      "modes": {
+        "graph_off": {
+          "requests": 6,
+          "decode_steps": 762,
+          "decode_tok_s": 24.585964226790747,
+          "decode_tok_s_per_round": [
+            24.62730024379171,
+            24.544766739239357
+          ],
+          "prefill_tok_s": 7932.027051909701,
+          "ttft_ms": 74.25240399993527,
+          "tpot_ms_p50": 38.966139000194744,
+          "tpot_ms_p90": 47.27641550020962,
+          "e2e_output_tok_s": 24.43827162709549,
+          "peak_allocated_mib_per_round": [
+            2495.39990234375,
+            2747.39990234375
+          ]
+        },
+        "graph_staging": {
+          "requests": 6,
+          "decode_steps": 762,
+          "decode_tok_s": 97.83667596810201,
+          "decode_tok_s_per_round": [
+            98.21421822430946,
+            97.4620251939926
+          ],
+          "prefill_tok_s": 10559.202582276015,
+          "ttft_ms": 49.511821499891084,
+          "tpot_ms_p50": 10.201089000020147,
+          "tpot_ms_p90": 10.752828999829944,
+          "e2e_output_tok_s": 94.8575333546324,
+          "peak_allocated_mib_per_round": [
+            2755.5302734375,
+            2755.5302734375
+          ]
+        }
+      },
+      "comparisons": {
+        "graph_with_staging_vs_off": {
+          "before": "graph_off",
+          "after": "graph_staging",
+          "decode_throughput_change_pct": 297.93711186438514,
+          "e2e_output_throughput_change_pct": 288.15156326137577
+        }
+      }
+    },
+    {
+      "input_tokens": 1024,
+      "modes": {
+        "graph_off": {
+          "requests": 6,
+          "decode_steps": 762,
+          "decode_tok_s": 24.045969113881903,
+          "decode_tok_s_per_round": [
+            24.510099397815377,
+            23.599089966276498
+          ],
+          "prefill_tok_s": 10187.941858463224,
+          "ttft_ms": 155.09144099996774,
+          "tpot_ms_p50": 39.150363999851834,
+          "tpot_ms_p90": 51.183666500173786,
+          "e2e_output_tok_s": 23.59095347129981,
+          "peak_allocated_mib_per_round": [
+            2509.53466796875,
+            2761.53466796875
+          ]
+        },
+        "graph_staging": {
+          "requests": 6,
+          "decode_steps": 762,
+          "decode_tok_s": 100.06156011725011,
+          "decode_tok_s_per_round": [
+            99.27006473879692,
+            100.86577836400208
+          ],
+          "prefill_tok_s": 10055.2097789622,
+          "ttft_ms": 101.95011349969718,
+          "tpot_ms_p50": 10.023623499819223,
+          "tpot_ms_p90": 10.62633439973979,
+          "e2e_output_tok_s": 93.1988779123451,
+          "peak_allocated_mib_per_round": [
+            2769.6650390625,
+            2769.6650390625
+          ]
+        }
+      },
+      "comparisons": {
+        "graph_with_staging_vs_off": {
+          "before": "graph_off",
+          "after": "graph_staging",
+          "decode_throughput_change_pct": 316.1261275990074,
+          "e2e_output_throughput_change_pct": 295.0619377284968
+        }
+      }
+    },
+    {
+      "input_tokens": 2048,
+      "modes": {
+        "graph_off": {
+          "requests": 6,
+          "decode_steps": 762,
+          "decode_tok_s": 23.837614923724598,
+          "decode_tok_s_per_round": [
+            23.526278023799463,
+            24.157302537505757
+          ],
+          "prefill_tok_s": 9181.859427230725,
+          "ttft_ms": 271.1183130002155,
+          "tpot_ms_p50": 39.02866100020219,
+          "tpot_ms_p90": 53.25958830012495,
+          "e2e_output_tok_s": 22.92656769336927,
+          "peak_allocated_mib_per_round": [
+            2537.55419921875,
+            2789.55419921875
+          ]
+        },
+        "graph_staging": {
+          "requests": 6,
+          "decode_steps": 762,
+          "decode_tok_s": 93.25389781112118,
+          "decode_tok_s_per_round": [
+            94.7060673509366,
+            91.84558923299879
+          ],
+          "prefill_tok_s": 9182.51214951878,
+          "ttft_ms": 209.66688199996497,
+          "tpot_ms_p50": 10.589308499902472,
+          "tpot_ms_p90": 11.46954220034786,
+          "e2e_output_tok_s": 81.15890059964073,
+          "peak_allocated_mib_per_round": [
+            2797.6845703125,
+            2797.6845703125
+          ]
+        }
+      },
+      "comparisons": {
+        "graph_with_staging_vs_off": {
+          "before": "graph_off",
+          "after": "graph_staging",
+          "decode_throughput_change_pct": 291.2048168808592,
+          "e2e_output_throughput_change_pct": 253.99498819491058
+        }
+      }
+    }
+  ]
+}

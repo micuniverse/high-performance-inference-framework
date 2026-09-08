@@ -4,6 +4,15 @@
 
 **当前是实验项目。** 发布整理后，FP16 与 INT8 均完成短序列推理冒烟测试，不再出现历史报告中的重复感叹号现象；完整生成质量、困惑度和长上下文正确性仍待验证。历史 INT8 Decode 吞吐低于 FP16，原始数据保留用于分析，不能作为加速结论。详见 [验证记录](docs/VALIDATION.md)。
 
+## 开启归一化编译后的 Graph 对照（2026-09-08）
+
+固定普通 RMSNorm、残差 Add+RMSNorm 均使用 torch.compile，保留 RoPE/SwiGLU 的既有编译设置，进行 Graph 关闭→开启→开启→关闭四个独立进程的测试。Qwen3-0.6B、RTX 3050 Laptop 4GB、FP16 KV Cache、batch=1、输入 512/1024/2048 token、输出 128 token：
+
+- 无 Graph 的 Decode 吞吐 **23.84–24.59 token/s**，完整 Graph + metadata staging 路径为 **93.25–100.06 token/s**，达到原来的 **3.91–4.16 倍**。
+- 两组均通过同一组 26 步小样本数值检查；这不是全模型 torch.compile，也没有隔离 staging 的独立贡献。
+
+原始数据、逐轮结果和编译范围见 [开启编译后的 Graph 报告](benchmark_results/compiled_graph_20260908/README.md)。
+
 ## CUDA Graph 与 metadata staging 对照（2026-09-08）
 
 固定当前 CUDA RMSNorm、FP16 KV Cache，在单请求、输入 512/1024/2048 token、输出 128 token 条件下，完成 Graph 关闭、Graph + 临时 metadata、Graph + CPU staging 三组共六个独立进程测试。

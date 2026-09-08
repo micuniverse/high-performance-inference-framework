@@ -1,5 +1,7 @@
 # 发布验证记录
 
+2026-09-08 补充普通与残差 RMSNorm 均开启 torch.compile 后的四进程 Graph 开关对照，见 [编译后 Graph 报告](../benchmark_results/compiled_graph_20260908/README.md)。两组均通过相同的 26 步数值检查；不代表全模型编译。
+
 2026-09-08 完成三种 Graph/staging 配置的六进程对照与数值检查，见 [Graph 复现报告](../benchmark_results/graph_20260908/README.md)。Graph 开关收益与已有 Graph 上 metadata 优化的收益分别统计，后者未复现稳定的 10%。
 
 自写算子接入前后的四种 RMSNorm 配置对照已完成，见 [算子复现报告](../benchmark_results/operators_20260907/README.md)。四种配置均完成相同的 26 步数值检查，性能测试包含八个独立进程。结果区分 eager 和原版编译设置，没有复现 30% 提升。
