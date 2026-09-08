@@ -1,0 +1,41 @@
+{
+  "model": "Qwen3-0.6B",
+  "model_sha256": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b",
+  "checkpoint_embedding_and_lm_head_equal": true,
+  "python": "3.10.19",
+  "torch": "2.5.1+cu121",
+  "transformers": "5.2.0",
+  "triton": "3.1.0",
+  "flash_attn": "2.8.3",
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU, 4096 MiB, 591.44",
+  "run_order": [
+    "graph_off_round1",
+    "graph_temp_metadata_round1",
+    "graph_staging_round1",
+    "graph_staging_round2",
+    "graph_temp_metadata_round2",
+    "graph_off_round2"
+  ],
+  "design": {
+    "input_lengths": [
+      512,
+      1024,
+      2048
+    ],
+    "output_tokens": 128,
+    "max_num_seqs": 1,
+    "prefill_repeats": 5,
+    "decode_repeats": 3,
+    "warmup_full_requests_per_length": 1,
+    "seed": 20260907,
+    "gpu_memory_utilization": 0.9,
+    "cache_capacity": "automatic; actual block count recorded per run",
+    "prompt_seed_formula": "20260824 + input_length * 1009 + case_id",
+    "kv_quant": false,
+    "rmsnorm_backend": "cuda",
+    "changed_factor": "CUDA Graph enablement and CPU pinned metadata staging reuse"
+  },
+  "date": "2026-09-08",
+  "inference_source_sha256": "0b71156bef8c56e4f8e3dc62363f560d17a1cd75c1fc7925f882b28a3badd98d",
+  "version_provenance": "Model checksum reverified; software versions separately captured from active nanovllm environment."
+}

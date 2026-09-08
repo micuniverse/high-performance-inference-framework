@@ -4,6 +4,16 @@
 
 **当前是实验项目。** 发布整理后，FP16 与 INT8 均完成短序列推理冒烟测试，不再出现历史报告中的重复感叹号现象；完整生成质量、困惑度和长上下文正确性仍待验证。历史 INT8 Decode 吞吐低于 FP16，原始数据保留用于分析，不能作为加速结论。详见 [验证记录](docs/VALIDATION.md)。
 
+## CUDA Graph 与 metadata staging 对照（2026-09-08）
+
+固定当前 CUDA RMSNorm、FP16 KV Cache，在单请求、输入 512/1024/2048 token、输出 128 token 条件下，完成 Graph 关闭、Graph + 临时 metadata、Graph + CPU staging 三组共六个独立进程测试。
+
+- 当前完整 Graph 路径的 Decode 吞吐由约 **16 token/s 提高至 75–89 token/s**，达到关闭 Graph 时的约 **4.62–5.49 倍**。
+- 在已有 Graph 上单独启用 CPU staging，汇总增量分别为 **+5.12%、+3.49%、−1.24%**，没有复现稳定的 10% 提升。
+- 三组均完成 26 步小样本数值检查；这里只验证 batch=1，不能推广为多请求稀疏 Decode 结果。
+
+完整基线定义、逐轮波动、复现命令及简历表述见 [Graph 性能复现报告](benchmark_results/graph_20260908/README.md)。
+
 ## 自写算子接入前后对照（2026-09-07）
 
 当前模型主路径实际启用的自写算子是 RMSNorm。固定 Qwen3-0.6B、FP16 KV Cache、单请求、CUDA Graph 后，完成四种 norm 配置、两轮反向顺序共八个独立进程的对照：
