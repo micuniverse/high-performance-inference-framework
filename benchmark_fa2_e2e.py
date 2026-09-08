@@ -85,6 +85,8 @@ def main():
     parser.add_argument("--seed", type=int, default=20260907)
     parser.add_argument("--gpu-memory-utilization", type=float, default=0.9)
     parser.add_argument("--rmsnorm-backend", choices=BACKENDS, default="cuda")
+    parser.add_argument("--cuda-graph", choices=("on", "off"), default="on")
+    parser.add_argument("--decode-staging", choices=("on", "off"), default="on")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     if min(args.lengths) < 1 or args.decode_tokens < 2 or min(args.prefill_repeats, args.decode_repeats, args.warmup_runs) < 1:
@@ -98,13 +100,17 @@ def main():
     max_model_len = max(args.lengths) + args.decode_tokens
     llm = LLM(
         args.model,
-        enforce_eager=False,
+        enforce_eager=args.cuda_graph == "off",
         kv_quant=kv_quant,
         max_model_len=max_model_len,
         max_num_batched_tokens=max_model_len,
         max_num_seqs=1,
         gpu_memory_utilization=args.gpu_memory_utilization,
     )
+    # Disable only CPU staging reuse; the existing Graph fallback still uses
+    # persistent GPU capture buffers and creates temporary metadata tensors.
+    if args.decode_staging == "off" and hasattr(llm.model_runner, "decode_staging"):
+        del llm.model_runner.decode_staging
     vocab_size = llm.model_runner.config.hf_config.vocab_size
 
     metadata = {
@@ -122,7 +128,8 @@ def main():
         "warmup_runs_per_length": args.warmup_runs,
         "seed": args.seed,
         "batch_size": 1,
-        "cuda_graph": True,
+        "cuda_graph": not llm.model_runner.enforce_eager,
+        "decode_staging": hasattr(llm.model_runner, "decode_staging"),
         "gpu_memory_utilization": args.gpu_memory_utilization,
         "cuda_runtime": torch.version.cuda,
         "git_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),

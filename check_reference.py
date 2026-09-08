@@ -60,9 +60,11 @@ def compare(args):
     from operator_backends import configure_backend
     backend = configure_backend(args.rmsnorm_backend)
     cases = torch.load(args.reference, weights_only=True)
-    llm = LLM(args.model, kv_quant=args.kv_quant == "on", enforce_eager=False,
+    llm = LLM(args.model, kv_quant=args.kv_quant == "on", enforce_eager=args.cuda_graph == "off",
               max_num_seqs=1, max_model_len=512, max_num_batched_tokens=512,
               gpu_memory_utilization=0.9)
+    if args.decode_staging == "off" and hasattr(llm.model_runner, "decode_staging"):
+        del llm.model_runner.decode_staging
     results = []
 
     class TeacherForcedSampler(torch.nn.Module):
@@ -99,7 +101,8 @@ def compare(args):
             assert len(sampler.steps) == len(case["generated_ids"])
             results.append({"prompt": case["prompt"], "reference_text": case["text"], "steps": sampler.steps})
     steps = [s for c in results for s in c["steps"]]
-    return {"backend": "nano", "operator_backend": backend, "kv_quant": args.kv_quant == "on", "cuda_graph": True,
+    return {"backend": "nano", "operator_backend": backend, "kv_quant": args.kv_quant == "on", "cuda_graph": not llm.model_runner.enforce_eager,
+            "decode_staging": hasattr(llm.model_runner, "decode_staging"),
             "method": "teacher-forced reference tokens, same inputs, single request; not perplexity or free-generation accuracy",
             "compared_steps": len(steps),
             "top1_agreement": sum(s["top1_matches_reference"] for s in steps) / len(steps),
@@ -115,6 +118,8 @@ if __name__ == "__main__":
     parser.add_argument("--kv-quant", choices=("on", "off"), default="off")
     parser.add_argument("--rmsnorm-backend", choices=("torch-eager", "cuda", "torch-compile", "cuda-compiled-residual"), default="cuda")
     parser.add_argument("--reference", type=Path, required=True)
+    parser.add_argument("--cuda-graph", choices=("on", "off"), default="on")
+    parser.add_argument("--decode-staging", choices=("on", "off"), default="on")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     torch.manual_seed(20260907)
